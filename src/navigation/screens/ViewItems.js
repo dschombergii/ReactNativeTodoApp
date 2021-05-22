@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Navigation } from 'react-native-navigation'
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { addTask, deleteTask } from '../redux/actions/actions';
+import { deleteTask, loadTasks } from '../../redux/actions/actions';
 
-import Button from '../components/Button';
-import ListItem from '../components/ListItem';
+import Button from '../../components/Button';
+import ListItem from '../../components/ListItem';
 
-const ViewItems = ({ navigation }) => {
+const ViewItems = (props) => {
     const tasks = useSelector(state => state);
     const dispatch = useDispatch();
 
-    const addItem = task => dispatch(addTask(task));
     const deleteItem = id => dispatch(deleteTask(id));
+    const loadItems = id => dispatch(loadTasks());
+
+    useEffect(() => {
+        loadItems()
+        console.log(tasks)
+    })
 
     return (
         <LinearGradient colors={['#FFFFFF', '#FFFFFF', '#D3CCE3']} style={styles.container}>
@@ -34,9 +40,11 @@ const ViewItems = ({ navigation }) => {
             )}
             <Button title="Add Task"
                 onPress={() => {
-                    navigation.navigate('Add Task', {
-                        addItem
-                    })
+                    Navigation.push(props.componentId, {
+                        component: {
+                            name: 'AddItem',
+                        }
+                    });
                 }}
             />
         </LinearGradient>

@@ -1,16 +1,30 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { Navigation } from 'react-native-navigation'
+import { StyleSheet, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
-import Button from '../components/Button';
+import { useDispatch } from 'react-redux';
 
-const AddItem = ({ route, navigation }) => {
+import { addTask, saveTasks } from '../../redux/actions/actions';
+
+import Button from '../../components/Button';
+
+const AddItem = (props) => {
     const [title, setTitle] = useState('');
-    const { addItem } = route.params;
+
+    const dispatch = useDispatch();
+
+    const addItem = task => dispatch(addTask(task));
+    const saveItem = () => dispatch(saveTasks())
 
     const onSaveTask = () => {
         addItem(title);
-        navigation.goBack();
+        saveItem();
+        Navigation.push(props.componentId, {
+            component: {
+                name: 'ViewItems'
+            }
+        });
     };
 
     return (
