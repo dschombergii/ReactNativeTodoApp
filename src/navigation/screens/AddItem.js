@@ -5,7 +5,7 @@ import { TextInput } from 'react-native-paper';
 
 import { useDispatch } from 'react-redux';
 
-import { addTask, saveTasks } from '../../redux/actions/actions';
+import { addTask } from '../../redux/actions/actions';
 
 import Button from '../../components/Button';
 
@@ -15,11 +15,11 @@ const AddItem = (props) => {
     const dispatch = useDispatch();
 
     const addItem = task => dispatch(addTask(task));
-    const saveItem = () => dispatch(saveTasks())
+    // const saveItem = () => dispatch(saveTasks())
 
     const onSaveTask = () => {
         addItem(title);
-        saveItem();
+        // saveItem();
         Navigation.push(props.componentId, {
             component: {
                 name: 'ViewItems'

@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { deleteTask, loadTasks } from '../../redux/actions/actions';
+import { deleteTask } from '../../redux/actions/actions';
 
 import Button from '../../components/Button';
 import ListItem from '../../components/ListItem';
@@ -14,10 +14,9 @@ const ViewItems = (props) => {
     const dispatch = useDispatch();
 
     const deleteItem = id => dispatch(deleteTask(id));
-    const loadItems = id => dispatch(loadTasks());
+    // const loadItems = id => dispatch(loadTasks());
 
     useEffect(() => {
-        loadItems()
         console.log(tasks)
     })
 
