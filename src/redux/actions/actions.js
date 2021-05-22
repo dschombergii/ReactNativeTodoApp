@@ -9,18 +9,18 @@ let taskID = 0;
 
 const STORAGE_KEY = '@save_tasks'
 
-// export const loadTasks = async () => {
-//     let tasks = []
-//     try {
-//         tasks = await AsyncStorage.getItem(STORAGE_KEY, tasks)
-//     } catch (e) {
-//         alert('Failed to load the data to the storage')
-//     }
-//     return {
-//         type: LOAD_TASKS,
-//         tasks
-//     }
-// }
+export const loadTasks = async () => {
+    let tasks = []
+    try {
+        tasks = await AsyncStorage.getItem(STORAGE_KEY, tasks)
+    } catch (e) {
+        alert('Failed to load the data to the storage')
+    }
+    return {
+        type: LOAD_TASKS,
+        tasks
+    }
+}
 
 // export const saveTasks = async () => {
 //     return {
@@ -28,6 +28,7 @@ const STORAGE_KEY = '@save_tasks'
 //         save()
 //     }
 // }
+
 export const addTask = (task) => {
     console.log(task)
     return {
