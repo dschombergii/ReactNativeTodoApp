@@ -7,12 +7,16 @@ export const SAVE_TASKS = 'SAVE_TASKS';
 
 let taskID = 0;
 
-const STORAGE_KEY = '@save_tasks'
+const STORAGE_KEY = '@save_tasks';
+
+//move async inside your function
 
 // export const loadTasks = async () => {
+//syntax is a new async function that takes dispatch as an argument
 //     let tasks = []
 //     try {
 //         tasks = await AsyncStorage.getItem(STORAGE_KEY, tasks)
+//after async operation is complete, use dispatch as a function that takes an object as a parameter
 //     } catch (e) {
 //         alert('Failed to load the data to the storage')
 //     }
@@ -28,18 +32,18 @@ const STORAGE_KEY = '@save_tasks'
 //         save()
 //     }
 // }
-export const addTask = (task) => {
-    console.log(task)
-    return {
-        type: ADD_TASK,
-        id: taskID++,
-        task
-    };
+export const addTask = task => {
+  console.log(task);
+  return {
+    type: ADD_TASK,
+    id: taskID++,
+    task,
+  };
 };
 
-export const deleteTask = (id) => {
-    return {
-        type: DELETE_TASK,
-        payload: id
-    };
+export const deleteTask = id => {
+  return {
+    type: DELETE_TASK,
+    payload: id,
+  };
 };
