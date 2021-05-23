@@ -1,6 +1,6 @@
 import { ADD_TASK, DELETE_TASK, LOAD_TASKS, SAVE_TASKS } from '../actions/actions';
 
-const initialState = [];
+let initialState = []
 
 const tasksReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -8,24 +8,24 @@ const tasksReducer = (state = initialState, action) => {
             console.log("adding task")
             return [
                 ...state,
-                {
-                    id: action.id,
-                    task: action.task
-                }
+                action.task
             ];
+
         case DELETE_TASK:
             console.log(action.payload)
             const deletedTask = state.filter(task => task.id != action.payload);
             return deletedTask;
+
         case LOAD_TASKS:
+            console.log('stored state', action.tasks)
             return [
                 action.tasks
             ];
+
         case SAVE_TASKS:
-            return [
-                ...state,
-                action.tasks
-            ];
+            console.log('saved state', state)
+            return state;
+
         default:
             return state;
     };

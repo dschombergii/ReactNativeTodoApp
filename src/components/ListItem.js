@@ -6,43 +6,76 @@ Icon.loadFont();
 
 const ListItem = ({ item, deleteItem }) => {
     const [finished, setFinished] = useState(false);
+    const [showDetails, setShowDetails] = useState(false)
 
     const finishTask = () => {
         setFinished(!finished);
     };
+
+    const toggleDetails = () => {
+        setShowDetails(!showDetails)
+    }
 
     return (
         <View style={styles.listItem}>
             <View style={styles.listItemView}>
                 <Text
                     style={finished ? styles.finishedText : styles.listItemText}>
-                    {item.task}
+                    {item.title}
+                </Text>
+                {!showDetails
+                    ? <TouchableOpacity>
+                        <Icon
+                            // style={styles.icon}
+                            name="chevron-down"
+                            size={20}
+                            color="#009688"
+                            onPress={toggleDetails}
+                        />
+                    </TouchableOpacity>
+                    : <TouchableOpacity>
+                        <Icon
+                            // style={styles.icon}
+                            name="chevron-up"
+                            size={20}
+                            color="#009688"
+                            onPress={toggleDetails}
+                        />
+                    </TouchableOpacity>
+                }
+            </View>
+            <View style={!showDetails ? styles.detailsContainerHidden : styles.detailsContainer}>
+                <Text style={finished ? styles.finishedDetailsText : styles.detailsText}>
+                    {item.details}
                 </Text>
                 <View style={styles.iconContainer}>
                     {!finished
-                        ? <TouchableOpacity>
+                        ? <TouchableOpacity
+                            style={styles.icon}
+                            onPress={finishTask}>
                             <Icon
-                                style={styles.icon}
-                                name="check" size={20}
+                                name="check"
+                                size={20}
                                 color="green"
-                                onPress={finishTask}
                             />
                         </TouchableOpacity>
-                        : <TouchableOpacity>
+                        : <TouchableOpacity
+                            style={styles.icon}
+                            onPress={finishTask}>
                             <Icon
-                                style={styles.icon}
-                                name="undo" size={20}
+                                name="undo"
+                                size={20}
                                 color="black"
-                                onPress={finishTask}
                             />
                         </TouchableOpacity>
                     }
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.icon}
+                        onPress={deleteItem}>
                         <Icon
-                            style={styles.icon}
-                            name="trash-o" size={20}
+                            name="trash-o"
+                            size={20}
                             color="firebrick"
-                            onPress={deleteItem}
                         />
                     </TouchableOpacity>
                 </View>
@@ -72,12 +105,38 @@ const styles = StyleSheet.create({
         textDecorationStyle: 'solid',
         textDecorationColor: 'red',
     },
+    detailsContainer: {
+        display: 'flex',
+        paddingTop: 10,
+    },
+    detailsContainerHidden: {
+        display: 'none',
+    },
+    detailsText: {
+        color: 'gray',
+        fontSize: 14,
+        fontStyle: 'italic',
+    },
+    finishedDetailsText: {
+        color: 'gray',
+        fontSize: 14,
+        fontStyle: 'italic',
+        textDecorationLine: 'line-through',
+        textDecorationStyle: 'solid',
+        textDecorationColor: 'gray',
+    },
     iconContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
+        paddingTop: 20,
     },
     icon: {
-        marginLeft: 20,
+        width: '49%',
+        height: 40,
+        borderWidth: 1,
+        borderColor: 'black',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 });
 

@@ -10,16 +10,17 @@ import { addTask } from '../../redux/actions/actions';
 import Button from '../../components/Button';
 
 const AddItem = (props) => {
-    const [title, setTitle] = useState('');
+    const [task, setTask] = useState({
+        title: '',
+        details: ''
+    });
 
     const dispatch = useDispatch();
 
     const addItem = task => dispatch(addTask(task));
-    // const saveItem = () => dispatch(saveTasks())
 
     const onSaveTask = () => {
-        addItem(title);
-        // saveItem();
+        addItem(task)
         Navigation.pop(props.componentId);
     };
 
@@ -28,15 +29,23 @@ const AddItem = (props) => {
             <View style={styles.titleContainer}>
                 <TextInput
                     label='What do you need to do?'
-                    value={title}
+                    value={task.title}
                     mode='flat'
-                    onChangeText={setTitle}
+                    onChangeText={text => setTask({ ...task, title: text })}
+                    style={styles.title}
+                />
+                <TextInput
+                    multiline
+                    label='Task details...'
+                    value={task.details}
+                    mode='flat'
+                    onChangeText={text => setTask({ ...task, details: text })}
                     style={styles.title}
                 />
             </View>
             <Button
                 title="Add Task"
-                disabled={title === '' ? true : false}
+                disabled={task.title === '' ? true : false}
                 onPress={() => onSaveTask()}
             />
         </View>
