@@ -20,11 +20,7 @@ const AddItem = (props) => {
     const onSaveTask = () => {
         addItem(title);
         // saveItem();
-        Navigation.push(props.componentId, {
-            component: {
-                name: 'ViewItems'
-            }
-        });
+        Navigation.pop(props.componentId);
     };
 
     return (

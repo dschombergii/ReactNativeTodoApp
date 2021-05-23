@@ -42,6 +42,13 @@ const ViewItems = (props) => {
                     Navigation.push(props.componentId, {
                         component: {
                             name: 'AddItem',
+                            options: {
+                                topBar: {
+                                    title: { text: 'Add Item', color: 'white' },
+                                    background: { color: '#009688' },
+                                    backButton: { color: 'white' },
+                                },
+                            },
                         }
                     });
                 }}

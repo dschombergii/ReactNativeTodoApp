@@ -4,18 +4,6 @@ export const stack = {
             children: [
                 {
                     component: {
-                        name: 'AddItem',
-                        options: {
-                            topBar: {
-                                title: { text: 'Add Item', color: 'white' },
-                                background: { color: '#009688' },
-                                backButton: { color: 'white' }
-                            },
-                        },
-                    },
-                },
-                {
-                    component: {
                         name: 'ViewItems',
                         options: {
                             topBar: {
