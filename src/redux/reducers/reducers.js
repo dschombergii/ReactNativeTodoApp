@@ -1,30 +1,20 @@
-import { ADD_TASK, DELETE_TASK, LOAD_TASKS, SAVE_TASKS } from '../actions/actions';
+import { ADD_TASK, EDIT_TASK, DELETE_TASK, LOAD_TASKS, SAVE_TASKS } from '../actions/actions';
 
-let initialState = []
+let initialState = [];
 
 const tasksReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TASK:
-            console.log("adding task")
-            return [
-                ...state,
-                action.task
-            ];
+            return action.storedState
+
+        case EDIT_TASK:
+            return action.storedState
 
         case DELETE_TASK:
-            console.log(action.payload)
-            const deletedTask = state.filter(task => task.id != action.payload);
-            return deletedTask;
+            return action.storedState;
 
         case LOAD_TASKS:
-            console.log('stored state', action.tasks)
-            return [
-                action.tasks
-            ];
-
-        case SAVE_TASKS:
-            console.log('saved state', state)
-            return state;
+            return action.storedState;
 
         default:
             return state;

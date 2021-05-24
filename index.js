@@ -1,6 +1,6 @@
-/**
- * @format
- */
+// /**
+//  * @format
+//  */
 
 import { Navigation } from "react-native-navigation";
 import { stack } from './src/navigation/stack'

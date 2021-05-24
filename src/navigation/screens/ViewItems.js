@@ -1,57 +1,54 @@
 import React, { useEffect } from 'react';
-import { Navigation } from 'react-native-navigation'
 import { SafeAreaView, StyleSheet, View, Text, FlatList } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { deleteTask, completeTask, loadTasks, saveTasks } from '../../redux/actions/actions';
+import { deleteTask, editTask, loadTasks } from '../../redux/actions/actions';
 
 import Button from '../../components/Button';
 import ListItem from '../../components/ListItem';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const ViewItems = (props) => {
     const tasks = useSelector(state => state);
     const dispatch = useDispatch();
 
     const deleteItem = id => dispatch(deleteTask(id));
-    const completeItem = id => dispatch(completeTask(id));
+    const editItem = id => dispatch(editTask(id));
     const loadItems = () => dispatch(loadTasks());
-    // const saveItems = () => dispatch(saveTasks(tasks));
 
-    // useEffect(() => {
-    //     loadItems()
-    // }, []);
-
-    // useEffect(() => {
-    //     saveItems()
-    //     console.log("tasks", tasks)
-    // }, [tasks])
+    // load from AsyncStorage on mount
+    useEffect(() => {
+        loadItems()
+    }, []);
 
     return (
         <LinearGradient colors={['#FFFFFF', '#FFFFFF', '#D3CCE3']} style={styles.container}>
             <SafeAreaView style={styles.container}>
-                {tasks.length === 0 ? (
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>You do not have any tasks.</Text>
-                    </View>
-                ) : (
-                    <FlatList
-                        data={tasks}
-                        renderItem={({ item }) => (
-                            console.log("item", item),
-                            <ListItem
-                                item={item}
-                                key={item}
-                                deleteItem={() => deleteItem(item.id)}
-                                completeItem={() => completeItem(item.id)}
-                            />
-                        )}
-                        keyExtractor={(item) => item.id}
-                    />
-                )}
+                {
+                    tasks.length === 0 ? (
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.title}>You do not have any tasks.</Text>
+                        </View>
+                    ) : (
+                        <FlatList
+                            data={tasks}
+                            renderItem={({ item }) => (
+                                <ListItem
+                                    item={item}
+                                    key={item}
+                                    // passing actions as props to list item
+                                    deleteItem={() => deleteItem(item.id)}
+                                    editItem={() => editItem(item.id)}
+                                    completeItem={() => completeItem(item.id)}
+                                />
+                            )}
+                            keyExtractor={(item) => item.id}
+                        />
+                    )}
                 <Button title="Add Task"
                     onPress={() => {
+                        // navigate to add item screen 
                         Navigation.push(props.componentId, {
                             component: {
                                 name: 'AddItem',

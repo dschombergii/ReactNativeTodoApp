@@ -4,13 +4,8 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 Icon.loadFont();
 
-const ListItem = ({ item, deleteItem }) => {
-    const [finished, setFinished] = useState(false);
+const ListItem = ({ item, deleteItem, editItem }) => {
     const [showDetails, setShowDetails] = useState(false)
-
-    const finishTask = () => {
-        setFinished(!finished);
-    };
 
     const toggleDetails = () => {
         setShowDetails(!showDetails)
@@ -20,13 +15,14 @@ const ListItem = ({ item, deleteItem }) => {
         <View style={styles.listItem}>
             <View style={styles.listItemView}>
                 <Text
-                    style={finished ? styles.finishedText : styles.listItemText}>
+                    style={item.complete ? styles.finishedText : styles.listItemText}>
                     {item.title}
                 </Text>
+
+                {/* change expand icon depending on details open or not */}
                 {!showDetails
                     ? <TouchableOpacity>
                         <Icon
-                            // style={styles.icon}
                             name="chevron-down"
                             size={20}
                             color="#009688"
@@ -35,7 +31,6 @@ const ListItem = ({ item, deleteItem }) => {
                     </TouchableOpacity>
                     : <TouchableOpacity>
                         <Icon
-                            // style={styles.icon}
                             name="chevron-up"
                             size={20}
                             color="#009688"
@@ -45,14 +40,29 @@ const ListItem = ({ item, deleteItem }) => {
                 }
             </View>
             <View style={!showDetails ? styles.detailsContainerHidden : styles.detailsContainer}>
-                <Text style={finished ? styles.finishedDetailsText : styles.detailsText}>
+                <Text style={item.complete ? styles.finishedDetailsText : styles.detailsText}>
                     {item.details}
                 </Text>
+
+                {/* if task is complete, show completed timestamp,
+                if not, show created timestamp */}
+                {item.complete ?
+                    <Text style={styles.timestampText}>
+                        {`Completed: ${item.completedDate} at ${item.completedTime}`}
+                    </Text> :
+                    <Text style={styles.timestampText}>
+                        {`Created: ${item.createdAt}`}
+                    </Text>
+                }
+
                 <View style={styles.iconContainer}>
-                    {!finished
+
+                    {/* if task is completed, show undo icon,
+                    if not, show check icon */}
+                    {!item.complete
                         ? <TouchableOpacity
                             style={styles.icon}
-                            onPress={finishTask}>
+                            onPress={editItem}>
                             <Icon
                                 name="check"
                                 size={20}
@@ -61,7 +71,7 @@ const ListItem = ({ item, deleteItem }) => {
                         </TouchableOpacity>
                         : <TouchableOpacity
                             style={styles.icon}
-                            onPress={finishTask}>
+                            onPress={editItem}>
                             <Icon
                                 name="undo"
                                 size={20}
@@ -89,7 +99,7 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: '#f8f8f8',
         borderBottomWidth: 1,
-        borderBottomColor: '#eee',
+        borderBottomColor: '#ccc',
     },
     listItemView: {
         flexDirection: 'row',
@@ -116,6 +126,11 @@ const styles = StyleSheet.create({
         color: 'gray',
         fontSize: 14,
         fontStyle: 'italic',
+    },
+    timestampText: {
+        color: 'black',
+        fontSize: 12,
+        paddingTop: 10,
     },
     finishedDetailsText: {
         color: 'gray',
